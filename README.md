@@ -1,6 +1,6 @@
 # StockBuster
 ## Simplifying Stocks: Offering you suggestions on when to buy, sell, or hold and letting you know potential profit!
-We have website currently running on: http://stockbuster.tech/ 
+We have website currently running on: http://stockbuster.tech/ <br />
 Deployed on Google Cloud Compute with domain name from Domain.com
 ### Inspiration
 The inspiration for this project came from the fact that the stock market is becoming an increasingly big part of everyone's lives. With trading apps like Robinhood making buying and selling stock that much more accessible to individuals, we wanted to create an app that could help people see trends in various stocks in the market and even suggest when they should buy, sell, or hold. 
