@@ -8,6 +8,8 @@ from dash.dependencies import Input, Output, State
 import stock_pred
 import dash_bootstrap_components as dbc
 
+
+
 # my_variable = "AAPL"
 # x_low,x_high,m_low,m_high,preds_low, preds_high, real_preds_high = stock_pred.get_preds_high_low(my_variable,365)
 # points_for_plot = stock_pred.compute_points_df(real_preds_high=real_preds_high)
@@ -15,66 +17,96 @@ import dash_bootstrap_components as dbc
 
 
 
-app = dash.Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css'])
+app = dash.Dash(__name__, external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css', dbc.themes.BOOTSTRAP])
+
 
 app.layout = html.Div([
 
  html.H1(children="Stock Buster", style={'textAlign':'center', 'color': '#8B008B','font-size':'80px'}),
 
-   html.Label("Input Stock:   "),
+   html.Label("    Input Stock:   ",style = {'font-size': '20px'}),
    dcc.Input(
        id='my-id',
        placeholder="ex. AAPL",
        type='text',
-       value='AAPL'),
+       value='AAPL',
+       style = {"font-size":"18px"},
+       size = '30'),
 
    html.Div(id='my-div'),
 
    html.Br(),
 
-   html.Label("Input Forecasting Window (Days):   "),
+   html.Label("    Input Forecasting Window (Days):   ", style = {'font-size': '20px'}),
    dcc.Input(
        id='days-id',
        placeholder="ex. 365",
        type='number',
-       value=365),
+       value=365,
+       style = {"font-size":"18px"},
+       size = '30'),
 
    html.Div(id='my-div2'),
 
    html.Br(),
 
-   html.Button('Submit', id='submit-val', n_clicks=0),
+   html.Button('Submit', id='submit-val', n_clicks=0, style = {'width':'150px','height':'50px','font-size':'20px'}),
     html.Div(id='container-button-basic',
              children=''),
+
+    html.Br(),
+    html.Br(),
+    html.Br(),
+
+   dbc.Progress('', value=75, style={"height": "30px"},striped=True,animated=True, id='progress-bar'),
    html.Br(),
 
    html.H2(id = 'graph-header' ,style={'textAlign':'center','font-size':'35px'}),
 
 
    html.Br(),
+   html.Br(),
 
-   dcc.Graph(id = 'fig'),
+   dcc.Graph(id = 'fig', style={
+            'height': 500,
+            'width': 900,
+            "display": "block",
+            "margin-left": "auto",
+            "margin-right": "auto",
+            }),
 
    html.Br(),
    html.Br(),
    html.Br(),
+   html.Br(),
+   html.Br(),
+   html.Br(),
+   html.Br(),
+   html.Br(),
+   html.Br(),
+   html.Br(),
 
-   html.Label("Input Number of Shares in Posession:   "),
+   html.Label("   Input Number of Shares in Posession:   ", style = {'font-size': '20px'}),
    dcc.Input(
        id='Initial-Shares',
        placeholder="ex. 250",
        type='number',
-       value=0),
+       value=0,
+       style = {"font-size":"18px"},
+       size = '30'
+       ),
     
     html.Br(),
     html.Br(),
 
-    html.Label("Input Amount Paid Per Share in Posession:   "),
+    html.Label("   Input Amount Paid Per Share in Posession:   ", style = {'font-size': '20px'}),
    dcc.Input(
        id='Price-Of-Share',
        placeholder="ex. 11.67",
        type='number',
-       value=0),
+       value=0,
+       style = {"font-size":"18px"},
+       size = '30'),
     
     html.Br(),
     html.Br(),
@@ -86,18 +118,30 @@ app.layout = html.Div([
     html.Br(),
 
     dash_table.DataTable(
-    id='table',editable=True),
+    id='table',editable=True, style_cell={
+        'whiteSpace': 'normal',
+        'height': '45px',
+    },style_data = {'font-size':'20px'},style_header={
+        'backgroundColor': 'white',
+        'fontWeight': 'bold',
+        'font-size':'20px'
+    }),
 
     html.Br(),
     html.Br(),
 
-    html.Button('Submit', id='submit-table', n_clicks=0),
+    html.Button('Submit', id='submit-table', n_clicks=0,  style = {'width':'150px','height':'50px','font-size':'20px'}),
     html.Div(id='container-button-basic1',
              children=''),
 
     html.H2(id='Pred-Message',style={'textAlign':'center','font-size':'30px'}, children=''),
 
-    html.Div(id='current-stock-price',style={'display': 'none'})
+    html.Div(id='current-stock-price',style={'display': 'none'}),
+    dcc.Interval(
+            id='interval-component',
+            interval=1000, # in milliseconds
+            n_intervals=0
+        )
 
 ])
 
@@ -107,13 +151,16 @@ app.layout = html.Div([
     Output(component_id = 'table', component_property = 'data'),  
     Output(component_id='current-stock-price',component_property = 'children'), 
     Output(component_id='graph-header',component_property = 'children'), 
-    Output(component_id='table-header',component_property = 'children'), 
+    Output(component_id='table-header',component_property = 'children'),    
     [Input('submit-val', 'n_clicks')],
     [State(component_id='my-id', component_property='value')],
     [State(component_id='days-id',component_property='value')]
 )
 
-def update_output_div(n,input_value,days):    
+def update_output_div(n,input_value,days):
+    f = open("progress.txt", "w")
+    f.write("processing")
+    f.close()
     x_low,x_high,m_low,m_high,preds_low, preds_high, real_preds_high = stock_pred.get_preds_high_low(input_value,days)
     points_for_plot = stock_pred.compute_points_df(real_preds_high=real_preds_high)
     fig1 = stock_pred.get_plots(x_high,m_low,preds_low,preds_high,points_for_plot)
@@ -122,6 +169,9 @@ def update_output_div(n,input_value,days):
     points_df_new["Number of Shares"] = [0 for i in range(len(points_df_new))]
     graph_string = 'Graph of Predicted High/Low Stock Prices for ' + input_value  
     table_string = 'Table of Suggest Buy/Hold/Sell Points for ' + input_value   
+    f = open("progress.txt", "w")
+    f.write("done")
+    f.close()
     return fig1, [{"name": i, "id": i} for i in points_df_new.columns], points_df_new.to_dict('records'), current, graph_string, table_string
 
 @app.callback(
@@ -137,8 +187,23 @@ def table_prediction(n,table_data, current_stock_price, initial_shares,price_of_
     reco = "Given our recommendation and your shares allocation, you would make a net profit of " + str(predicted_profit) + "."
     return reco
 
+
+@app.callback(
+    Output(component_id='progress-bar', component_property='style'),    
+     Input('interval-component', 'n_intervals')    
+)
+def change_progress(n):      
+    f = open("progress.txt", "r")
+    x = f.read()
+    f.close()
+    if x=='processing':
+        return {"height": "30px"}
+    else:
+       return {"height": "30px","visibility":"hidden"}
+
+
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', port=8080)
 
 
 
