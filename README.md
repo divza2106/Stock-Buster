@@ -1,6 +1,7 @@
 # StockBuster
 ## Simplifying Stocks: Offering you suggestions on when to buy, sell, or hold and letting you know potential profit!
-
+We have website currently running on: http://stockbuster.tech/ for demo
+Deployed on Google Cloud Compute with domain name from Domain.com
 ### Inspiration
 The inspiration for this project came from the fact that the stock market is becoming an increasingly big part of everyone's lives. With trading apps like Robinhood making buying and selling stock that much more accessible to individuals, we wanted to create an app that could help people see trends in various stocks in the market and even suggest when they should buy, sell, or hold. 
 
@@ -22,3 +23,16 @@ We learned how to create interactive plots with Plotly, use Facebook prophet mod
 
 ### What's next for Stock Buster
 In the future we hope to expand Stock Buster to be able to track the future of multiple stocks at once and understand the profit you would can by making optimal suggested buys and sells. This would enable individuals to make more informed trading decisions and see how their entire stock portfolio is contributing to their financial success.
+
+###Instalation
+Run these following commands:
+Download and Install Anaconda
+pip install dash
+pip install pandas
+pip install matplotlib
+conda install -c conda-forge fbprophet
+pip install yfinance
+pip install dash-bootstrap-components
+
+##Usage
+python Hacklytics_Dash.py
