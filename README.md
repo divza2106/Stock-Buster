@@ -26,7 +26,7 @@ In the future we hope to expand Stock Buster to be able to track the future of m
 
 ### Instalation
 Run these following commands:
-Download and Install Anaconda
+Download and Install Anaconda<br />
 `pip install dash`<br />
 `pip install pandas`<br />
 `pip install matplotlib`<br />
