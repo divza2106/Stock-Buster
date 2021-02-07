@@ -27,12 +27,12 @@ In the future we hope to expand Stock Buster to be able to track the future of m
 ### Instalation
 Run these following commands:
 Download and Install Anaconda
-pip install dash
-pip install pandas
-pip install matplotlib
-conda install -c conda-forge fbprophet
-pip install yfinance
-pip install dash-bootstrap-components
+'pip install dash'
+'pip install pandas'
+'pip install matplotlib'
+'conda install -c conda-forge fbprophet'
+'pip install yfinance'
+'pip install dash-bootstrap-components'
 
 ### Usage
-python Hacklytics_Dash.py
+'python Hacklytics_Dash.py'
